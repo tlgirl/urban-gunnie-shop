@@ -1,13 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Urban Gunnie Shop</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+max-width:900px;
+margin:auto;
+padding:20px;
+background:#f5f5f5;
+}
+
+h1{
+text-align:center;
+}
+
+.card{
+background:white;
+padding:20px;
+margin:20px 0;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input{
+width:100%;
+padding:10px;
+margin:5px 0;
+}
+
+button{
+background:#2e7d32;
+color:white;
+border:none;
+padding:10px 20px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
+}
+</style>
+
 </head>
+
 <body>
 
-<h1>Urban Gunnie Shop</h1>
+<h1>🔫 Urban Gunnie Shop</h1>
 
-<p>Als je dit ziet werkt GitHub Pages.</p>
+<div class="card">
+
+<h2>Karambit Dark Purple</h2>
+
+<p><b>Dura:</b> 50</p>
+<p><b>Prijs:</b> €112.500</p>
+
+<input id="naam" placeholder="Ingame naam">
+
+<input id="discord" placeholder="Discord naam">
+
+<button onclick="reserveer()">
+Reserveer
+</button>
+
+</div>
+
+<script>
+
+function reserveer(){
+
+const naam = document.getElementById("naam").value;
+const discord = document.getElementById("discord").value;
+
+if(!naam || !discord){
+alert("Vul je naam en Discord in.");
+return;
+}
+
+fetch("https://script.google.com/macros/s/AKfycby4OM6nMs1NEbsPcAnWkx_IAKvkv_n6YaZYIp4DqBVUmhtMmR-t6KBq4siJX0IgqLIS/exec",{
+method:"POST",
+body:JSON.stringify({
+id:1,
+naam:naam,
+discord:discord
+})
+})
+.then(r=>r.text())
+.then(data=>{
+alert("Reservering verzonden!");
+})
+.catch(err=>{
+alert("Er ging iets fout.");
+});
+}
+
+</script>
 
 </body>
 </html>
