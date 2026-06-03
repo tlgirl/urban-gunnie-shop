@@ -391,8 +391,10 @@ knop.innerText = "Reserveer";
 
 .catch(err=>{
 
+console.error(err);
+
 alert(
-"Er ging iets fout."
+"FOUT:\n\n" + err
 );
 
 knop.disabled = false;
