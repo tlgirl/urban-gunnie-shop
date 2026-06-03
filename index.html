@@ -13,7 +13,7 @@ body{
     padding:20px;
     background:#121212;
     color:white;
-    font-family:Arial,sans-serif;
+    font-family:Arial,sans-serif;                    
 }
 
 h1{
@@ -270,21 +270,40 @@ document.getElementById("producten")
 
 function reserveer(id){
 
+const knop = event.target;
+
+if(knop.disabled){
+return;
+}
+
 let naam =
-document.getElementById("naam_"+id).value;
+document.getElementById("naam_"+id).value.trim();
 
 let discord =
-document.getElementById("discord_"+id).value;
+document.getElementById("discord_"+id).value.trim();
 
-if(!naam || !discord){
+if(naam.length < 2){
 
 alert(
-"Vul je naam en Discord in."
+"Je ingame naam moet minimaal 2 tekens bevatten."
 );
 
 return;
 
 }
+
+if(discord.length < 3){
+
+alert(
+"Je Discord naam moet minimaal 3 tekens bevatten."
+);
+
+return;
+
+}
+
+knop.disabled = true;
+knop.innerText = "Bezig...";
 
 fetch(API_URL,{
 
@@ -301,37 +320,73 @@ discord:discord
 })
 
 .then(r=>r.text())
+
 .then(t=>{
 
 if(t==="OK"){
 
-alert("Reservering geplaatst!");
+alert(
+"Reservering geplaatst!"
+);
 
 location.reload();
-
 return;
 
 }
 
 if(t==="UITVERKOCHT"){
 
-alert("Dit item is uitverkocht.");
-
-return;
+alert(
+"Dit item is uitverkocht."
+);
 
 }
 
-if(t==="MAX_RESERVERINGEN"){
+else if(t==="MAX_RESERVERINGEN"){
 
 alert(
 "Je hebt al 5 open reserveringen."
 );
 
-return;
+}
+
+else if(t==="NAAM_ONGELDIG"){
+
+alert(
+"Naam ongeldig."
+);
 
 }
 
-alert(t);
+else if(t==="DISCORD_ONGELDIG"){
+
+alert(
+"Discord ongeldig."
+);
+
+}
+
+else{
+
+alert(
+"Fout: " + t
+);
+
+}
+
+knop.disabled = false;
+knop.innerText = "Reserveer";
+
+})
+
+.catch(err=>{
+
+alert(
+"Er ging iets fout."
+);
+
+knop.disabled = false;
+knop.innerText = "Reserveer";
 
 });
 
