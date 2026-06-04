@@ -8,6 +8,26 @@
 
 <style>
 
+#melding{
+    display:none;
+    padding:15px;
+    margin-bottom:20px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+#melding.success{
+    display:block;
+    background:#1e4620;
+    color:#8cff98;
+}
+
+#melding.error{
+    display:block;
+    background:#4d1717;
+    color:#ff9a9a;
+}
+    
 body{
     margin:0;
     padding:20px;
@@ -95,7 +115,9 @@ button:hover{
 <body>
 
 <h1>🔫 Urban Gun Shop 🔫</h1>
-
+    
+<div id="melding"></div>
+    
 <div class="controls">
 
 <input
@@ -325,9 +347,17 @@ discord:discord
 
 if(t==="OK"){
 
-alert(
-"Reservering geplaatst!"
-);
+const melding =
+document.getElementById("melding");
+
+melding.className = "success";
+melding.innerHTML =
+"✅ Reservering succesvol geplaatst!";
+
+window.scrollTo({
+  top:0,
+  behavior:"smooth"
+});
 
 location.reload();
 return;
@@ -344,11 +374,17 @@ alert(
 
 else if(t==="MAX_RESERVERINGEN"){
 
-alert(
-"Je hebt al 5 open reserveringen."
-);
+const melding =
+document.getElementById("melding");
 
-}
+melding.className = "error";
+melding.innerHTML =
+"❌ Je hebt al 5 open reserveringen.";
+
+window.scrollTo({
+  top:0,
+  behavior:"smooth"
+});
     
 else if(t==="SERVER_DRUK"){
 
